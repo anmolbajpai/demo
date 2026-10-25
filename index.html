@@ -1,16 +1,142 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First ci/cd Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My First Website</title>
+  <meta name="description" content="A first website by Anmol Bajpai, published automatically with GitHub Actions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eef2f7;
+      --surface: #ffffff;
+      --ink: #14213d;
+      --muted: #4d5b78;
+      --line: #cdd6e4;
+      --accent: #2f5bea;
+      --pass: #1f8a5b;
+      --head: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+      --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #0f1626;
+        --surface: #172036;
+        --ink: #eaf0fb;
+        --muted: #9aa8c4;
+        --line: #2a3654;
+        --accent: #7b9bff;
+        --pass: #4cc38a;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 44rem; margin: 0 auto; padding: 4rem 1.5rem 3rem; }
+    h1, h2 { font-family: var(--head); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(2.6rem, 9vw, 4.5rem); font-weight: 800; }
+    h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem; }
+    p { margin: 0 0 1rem; max-width: 60ch; }
+    .lede { font-size: 1.2rem; color: var(--muted); margin-top: 1.25rem; }
+
+    .pipeline {
+      list-style: none;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .pipeline li {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.85rem 1.1rem;
+      border-top: 1px solid var(--line);
+      font-weight: 500;
+    }
+    .pipeline li:first-child { border-top: 0; }
+    .pipeline .tick {
+      flex: none;
+      width: 1.4rem; height: 1.4rem;
+      border-radius: 50%;
+      background: var(--pass);
+      color: #fff;
+      display: grid; place-items: center;
+      font-size: 0.85rem;
+    }
+    .pipeline .time { margin-left: auto; color: var(--muted); font-size: 0.9rem; }
+    @media (prefers-reduced-motion: no-preference) {
+      .pipeline li { opacity: 0; animation: step 0.4s ease forwards; }
+      .pipeline li:nth-child(1) { animation-delay: 0.2s; }
+      .pipeline li:nth-child(2) { animation-delay: 0.7s; }
+      .pipeline li:nth-child(3) { animation-delay: 1.2s; }
+      .pipeline li:nth-child(4) { animation-delay: 1.7s; }
+      @keyframes step { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+    }
+
+    section { margin-top: 4rem; }
+    ol.steps { padding-left: 1.4rem; margin: 0; }
+    ol.steps li { margin-bottom: 0.6rem; padding-left: 0.3rem; }
+    code {
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.92em;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+    }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <h2>now ci/cd applies</h2>
-    <h3>My First ci/cd Website  . .. . . . </h3>
-    <p>My website is working.</p>
-    <button>Click Me</button>
+  <main class="wrap">
+    <h1>My first website, published by a pipeline.</h1>
+    <p class="lede">I’m Anmol. I pushed some code, and GitHub Actions built and deployed this page without me touching a server.</p>
+
+    <ul class="pipeline" aria-label="Deployment steps that ran for this page">
+      <li><span class="tick" aria-hidden="true">✓</span>Check out the code <span class="time">push to main</span></li>
+      <li><span class="tick" aria-hidden="true">✓</span>Test that the page is valid</li>
+      <li><span class="tick" aria-hidden="true">✓</span>Upload the site files</li>
+      <li><span class="tick" aria-hidden="true">✓</span>Deploy to GitHub Pages <span class="time">live</span></li>
+    </ul>
+
+    <section>
+      <h2>How this page gets here</h2>
+      <ol class="steps">
+        <li>I edit <code>index.html</code> on my computer.</li>
+        <li>I run <code>git push</code> to send it to GitHub.</li>
+        <li>The workflow in <code>.github/workflows/deploy.yml</code> starts on its own.</li>
+        <li>A minute later, this page shows the change.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>What I’m learning</h2>
+      <p>Continuous integration (CI) means every push is checked automatically. Continuous deployment (CD) means a passing check goes live automatically. This small site is my practice project for both.</p>
+    </section>
+
+    <footer>
+      Built by Anmol Bajpai. <a href="https://github.com/anmolbajpai/demo">See the code on GitHub</a>.
+    </footer>
+  </main>
 </body>
 </html>
